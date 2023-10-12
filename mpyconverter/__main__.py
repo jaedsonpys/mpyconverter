@@ -26,5 +26,13 @@ def main():
     args = parser.parse()
 
     if args.convert:
-        for i, filepath in enumerate(args.convert):
-            convert(i, filepath)
+        for i, path in enumerate(args.convert):
+            if os.path.isdir(path):
+                dir_files = os.listdir(path)
+                m4a_files = filter(lambda f: f.endswith('.m4a'), dir_files)
+
+                for n, file in enumerate(m4a_files):
+                    filepath = os.path.join(path, file)
+                    convert((n + i), filepath)
+            else:
+                convert(i, path)
