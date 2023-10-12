@@ -1,7 +1,20 @@
+import os
+
 from .__init__ import __version__
 from . import converter
 
 from argeasy import ArgEasy
+
+
+def convert(position: int, src: str):
+    pos = position + 1
+    indent = len(str(pos)) + 4
+
+    print(f'\033[33m[{pos}°]\033[m Converting "{src}"...')
+    new_filepath = src.replace('.m4a', '.mp3')
+    converter.convert_file(src, new_filepath)
+
+    print(f'{" " * indent}\033[32mSuccessful conversion\033[m')
 
 
 def main():
@@ -14,8 +27,4 @@ def main():
 
     if args.convert:
         for i, filepath in enumerate(args.convert):
-            print(f'\033[33m[{i + 1}°]\033[m Converting "{filepath}"...')
-            new_filepath = filepath.replace('.m4a', '.mp3')
-            converter.convert_file(filepath, new_filepath)
-
-            print(f'\033[32m[{i + 1}°]\033[m Successful conversion')
+            convert(i, filepath)
